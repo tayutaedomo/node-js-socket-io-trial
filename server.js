@@ -51,6 +51,11 @@ server.listen(PORT, () => {
  * socket.io Settings
  */
 const io = socketIO(server);
+const redis = require("socket.io-redis");
+
+const REDIS_URL = process.env.REDIS_URL || 'redis://localhost:6379';
+
+io.adapter(redis(REDIS_URL));
 
 io.on('connection', (socket) => {
   console.log('Client connected');
