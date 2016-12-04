@@ -51,7 +51,7 @@ server.listen(PORT, () => {
  * socket.io Settings
  */
 const io = socketIO(server);
-const redis = require("socket.io-redis");
+const redis = require('socket.io-redis');
 
 const REDIS_URL = process.env.REDIS_URL || 'redis://localhost:6379';
 
@@ -62,6 +62,20 @@ io.on('connection', (socket) => {
 
   socket.on('disconnect', () => {
     console.log('Client disconnected');
+  });
+
+  socket.on('/room/join', function(data) {
+    console.log('/room/join', data.name);
+
+    socket.join(data.name);
+    io.sockets.adapter.sids[socket.id].ROOM = data.name;
+    socket.emit('/room/join/success');
+  });
+
+  socket.on('/room/message', function(data) {
+    var room = io.sockets.adapter.sids[socket.id].ROOM;
+    console.log('message', room, data);
+    io.sockets.in(room).emit('/room/message', data);
   });
 });
 
