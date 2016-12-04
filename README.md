@@ -11,7 +11,7 @@ Try socket.io
 $ git clone https://github.com/tayutaedomo/node-js-socket-io-trial.git
 $ cd node-js-socket-io-trial
 $ npm install
-$ env REDIS_URL=redis://localhost:6379
+$ export REDIS_URL=redis://localhost:6379
 $ npm start
 ```
 
