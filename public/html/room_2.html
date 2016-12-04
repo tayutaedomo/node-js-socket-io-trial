@@ -1,0 +1,54 @@
+<html>
+  <hea>
+    <title>Room 2</title>
+  </hea>
+  <body>
+    <h1>Room 2</h1>
+    <input type="text" name="message" id="message_form" />
+    <button type="button" onclick="add_message()">Add</button>
+
+    <ul id="messages"></ul>
+
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript">
+      var socket = io({});
+      var room = "room-2";
+
+      socket.on("connect", function() {
+        console.log("connect", room);
+        socket.emit("/room/join", { name: room });
+      });
+
+      socket.on("/room/join/success", function(data) {
+        console.log("/room/join/success");
+      });
+
+      socket.on("/room/message", function(data) {
+        console.log("/room/message", data);
+
+        switch(data.cmd) {
+          case "add_message":
+            receive_message(data.message);
+            break;
+        }
+      });
+
+      function add_message() {
+        var message = window.document.querySelector("#message_form");
+
+        socket.emit("/room/message", { cmd: "add_message", message: message.value });
+
+        message.value = "";
+      }
+
+      function receive_message(text) {
+        var element = window.document.createElement("li");
+        element.innerHTML = text;
+
+        var messages_element = window.document.getElementById("messages");
+        messages_element.appendChild(element);
+      }
+    </script>
+  </body>
+</html>
+

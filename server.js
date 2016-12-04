@@ -67,14 +67,18 @@ io.on('connection', (socket) => {
   socket.on('/room/join', function(data) {
     console.log('/room/join', data.name);
 
-    socket.join(data.name);
-    io.sockets.adapter.sids[socket.id].ROOM = data.name;
+    socket.join(data.name); // Join specified room
+
+    io.sockets.adapter.sids[socket.id].ROOM = data.name;  // Store room name
+
     socket.emit('/room/join/success');
   });
 
   socket.on('/room/message', function(data) {
     var room = io.sockets.adapter.sids[socket.id].ROOM;
+
     console.log('message', room, data);
+
     io.sockets.in(room).emit('/room/message', data);
   });
 });

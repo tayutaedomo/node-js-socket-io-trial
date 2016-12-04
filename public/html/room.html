@@ -4,15 +4,15 @@
   </hea>
   <body>
     <h1>Room</h1>
-    <input type='text' name='message' id='message_form' />
-    <button type='button' onclick='add_message()'>Add</button>
+    <input type="text" name="message" id="message_form" />
+    <button type="button" onclick="add_message()">Add</button>
 
-    <ul id='messages'></ul>
+    <ul id="messages"></ul>
 
-    <script type='text/javascript' src='/socket.io/socket.io.js'></script>
-    <script type='text/javascript'>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript">
       var socket = io({});
-      var room = 'room-A';
+      var room = 'room-1';
 
       socket.on('connect', function() {
         console.log('connect', room);
