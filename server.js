@@ -81,6 +81,18 @@ io.on('connection', (socket) => {
 
     io.sockets.in(room).emit('/room/message', data);
   });
+
+
+  // See: https://html5experts.jp/mganeko/5349/
+  socket.on('message', function(message) {
+    socket.broadcast.emit('message', message);
+    //socket.broadcast.emit('/signaling/message', message);
+  });
+
+  socket.on('disconnect', function() {
+    socket.broadcast.emit('user disconnected');
+    //socket.broadcast.emit('/signaling/user_disconnected');
+  });
 });
 
 setInterval(
