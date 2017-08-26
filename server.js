@@ -60,10 +60,6 @@ io.adapter(redis(REDIS_URL));
 io.on('connection', (socket) => {
   console.log('Client connected');
 
-  socket.on('disconnect', () => {
-    console.log('Client disconnected');
-  });
-
   socket.on('/room/join', function(data) {
     console.log('/room/join', data.name);
 
@@ -89,7 +85,13 @@ io.on('connection', (socket) => {
     //socket.broadcast.emit('/signaling/message', message);
   });
 
+  // socket.on('disconnect', () => {
+  //   console.log('Client disconnected');
+  // });
+
   socket.on('disconnect', function() {
+    console.log('Client disconnected');
+
     socket.broadcast.emit('user disconnected');
     //socket.broadcast.emit('/signaling/user_disconnected');
   });
