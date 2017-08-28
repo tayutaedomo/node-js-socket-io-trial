@@ -78,26 +78,30 @@ io.on('connection', (socket) => {
     io.sockets.in(room).emit('/room/message', data);
   });
 
-
-  // See: https://html5experts.jp/mganeko/5349/
-  socket.on('message', function(message) {
-    socket.broadcast.emit('message', message);
-    //socket.broadcast.emit('/signaling/message', message);
-  });
-
-  // socket.on('disconnect', () => {
-  //   console.log('Client disconnected');
-  // });
-
-  socket.on('disconnect', function() {
+  socket.on('disconnect', () => {
     console.log('Client disconnected');
-
-    socket.broadcast.emit('user disconnected');
-    //socket.broadcast.emit('/signaling/user_disconnected');
   });
 });
 
 setInterval(
   () => io.emit('time', new Date().toTimeString()),
   1000);
+
+
+//
+// See: https://html5experts.jp/mganeko/5349/
+//
+io.of('/signaling').on('connection', (socket) => {
+  console.log('Client connected');
+
+  socket.on('message', function(message) {
+    socket.broadcast.emit('message', message);
+  });
+
+  socket.on('disconnect', function() {
+    console.log('Client disconnected');
+
+    socket.broadcast.emit('user disconnected');
+  });
+});
 

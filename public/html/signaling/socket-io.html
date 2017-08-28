@@ -66,7 +66,7 @@
   var socketReady = false;
   //var port = 9001;
   //var socket = io.connect('http://localhost:' + port + '/');
-  var socket = io.connect({});
+  var socket = io.connect('/signaling');
   // socket: channel connected
   socket.on('connect', onOpened)
     .on('message', onMessage);
