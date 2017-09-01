@@ -92,7 +92,7 @@ setInterval(
 // See: https://html5experts.jp/mganeko/5349/
 //
 io.of('/signaling').on('connection', (socket) => {
-  console.log('Client connected');
+  console.log('Client connected to /signaling');
 
   socket.on('message', function(message) {
     socket.broadcast.emit('message', message);
@@ -109,7 +109,7 @@ io.of('/signaling').on('connection', (socket) => {
 // https://html5experts.jp/mganeko/20112/
 //
 io.of('/signaling_multi').on('connection', function(socket) {
-  console.log('Client connected');
+  console.log('Client connected to /signaling_multi');
 
   // ---- multi room ----
   socket.on('enter', function(roomname) {
@@ -184,6 +184,8 @@ io.of('/signaling_multi').on('connection', function(socket) {
 var numUsers = 0;
 
 io.of('/chat').on('connection', function (socket) {
+  console.log('Client connected to /chat');
+
   var addedUser = false;
 
   // when the client emits 'new message', this listens and executes
